@@ -1,11 +1,11 @@
 import Layout from "../../Components/Layout.jsx";
 
-function NotFound() {
+function All() {
     return (
         <Layout>
-            NotFound
+            All
         </Layout>
     )
 }
 
-export default NotFound;
+export default All;
