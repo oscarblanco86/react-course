@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import Card from "../../Components/Card/index.jsx";
 import Layout from "../../Components/Layout.jsx";
+import ProductDetail from "../../Components/ProductDetail/index.jsx";
 
 function Home() {
     const [items, setItems] = useState(null)
@@ -21,6 +22,7 @@ function Home() {
                     items?.map(item => (<Card key={item.id} data={item} />))
                 }
             </div>
+            <ProductDetail />
         </Layout>
     )
 }
