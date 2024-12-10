@@ -1,4 +1,5 @@
 import { useContext } from 'react'
+import { Link } from 'react-router-dom'
 import { XMarkIcon } from '@heroicons/react/24/solid'
 import { ShoppingCartContext } from '../../Context'
 import OrderCard from '../OrderCard'
@@ -8,7 +9,7 @@ import './styles.css'
 
 const CheckoutSideMenu = () => {
     const context = useContext(ShoppingCartContext)
-    console.log('Cart: ', context.cartProducts)
+    // console.log('Cart: ', context.cartProducts)
 
     const handleDelete = (id) => {
         const filteredProducts = context.cartProducts.filter(product => product.id != id)
@@ -56,9 +57,12 @@ const CheckoutSideMenu = () => {
                     <span className='font-light'>Total:</span>
                     <span className='font-medium '>${totalPrice(context.cartProducts)}</span>
                 </p>
-                <button 
-                className='bg-black py-3 text-white w-full rounded-lg '
-                onClick={() => handleCheckout()}>Checkout</button>
+                <Link to='/my-orders/last'>
+                    <button 
+                        className='bg-black py-3 text-white w-full rounded-lg '
+                        onClick={() => handleCheckout()}>Checkout
+                    </button>
+                </Link>
             </div>
 
         </aside>
