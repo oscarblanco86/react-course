@@ -1,26 +1,43 @@
-import { useState, useEffect } from "react";
+import { useContext} from "react";
 import Card from "../../Components/Card/index.jsx";
 import Layout from "../../Components/Layout.jsx";
 import ProductDetail from "../../Components/ProductDetail/index.jsx";
+import { ShoppingCartContext } from "../../Context/index.jsx";
 
 function Home() {
-    const [items, setItems] = useState(null)
-    useEffect( () => {
-        fetch('https://api.escuelajs.co/api/v1/products')
-            // .then(response => console.log(response.json()))
-            // .then(data => console.log(data))
-            .then(response => response.json())
-            .then(data => setItems(data))
-    }, [])
-        
+    const context = useContext(ShoppingCartContext)
+    const renderView = () => {
+        if (context.setSearchByTitle?.length > 0) {
+            if (context.filteredItems?.length > 0) {
+                return (
+                    context.filteredItems?.map(item => (<Card key={item.id} data={item} />))
+                )
+            } else {
+                console.log(context.filteredItems)
+                return (
+                    <div>We dont have it</div>
+                )
+            }
+        } else {
+            return (
+                context.Items?.map(item => (<Card key={item.id} data={item} />))
+            )
+        }
+    }
     return (
         <Layout>
-            Home
+            <div className='flex items-center justify-center relative w-80 mb-4 focus:outline-none'>
+                <h1 className='font-medium text-xl'>Exclusive Products</h1>
+            </div>
+
+            <input 
+                type='text' 
+                placeholder='Search a product'
+                className='rounded-lg border border-black w-80 p-4 mb-4'
+                onChange={(event) => context.setSearchByTitle(event.target.value)}>
+            </input>
             <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
-                {
-                    // eslint-disable-next-line react/jsx-key
-                    items?.map(item => (<Card key={item.id} data={item} />))
-                }
+                {renderView() }
             </div>
             <ProductDetail />
         </Layout>

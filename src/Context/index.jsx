@@ -1,4 +1,4 @@
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 
 // eslint-disable-next-line react-refresh/only-export-components
 export const ShoppingCartContext = createContext();
@@ -27,7 +27,31 @@ export const ShoppingCartProvider = ({children})=> {
 
     //Shopping Cart order
     const [order, setOrder] = useState([])
-    
+
+    //Get  products
+    const [items, setItems] = useState(null)
+    const [filteredItems, setFilteredItems] = useState(null)
+
+    //Get products by title
+    const [searchByTitle, setSearchByTitle] = useState(null)
+    console.log('Search By Title ', searchByTitle)
+
+    useEffect( () => {
+        fetch('https://api.escuelajs.co/api/v1/products')
+            .then(response => response.json())
+            .then(data => setItems(data))
+    }, [])
+        
+    const filteredItemsByTitle = (items, searchByTitle) => {
+        return items?.filter(item => item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+    }
+
+    useEffect(() => {
+        if (searchByTitle) setFilteredItems(filteredItemsByTitle(items,searchByTitle))
+    }, [items, searchByTitle])
+
+    console.log('filtered items: ',filteredItems)
+
     return (
         <ShoppingCartContext.Provider value={{
             count,
@@ -43,7 +67,13 @@ export const ShoppingCartProvider = ({children})=> {
             openCheckoutSideMenu,
             closeCheckoutSideMenu,
             order,
-            setOrder
+            setOrder,
+            items,
+            setItems,
+            searchByTitle,
+            setSearchByTitle,
+            filteredItems,
+            setFilteredItems
         }}>
             {children}
         </ShoppingCartContext.Provider>
