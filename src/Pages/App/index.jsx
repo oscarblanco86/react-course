@@ -3,7 +3,7 @@ import { ShoppingCartProvider } from '../../Context';
 import Home from '../Home'
 // import All from '../All';
 import MyAccount from '../MyAccount'
-import Cat from '../cat';
+// import Cat from '../cat';
 import MyOrder from '../MyOrder'
 import MyOrders from '../MyOrders'
 import NotFound from '../NotFound'
@@ -16,7 +16,12 @@ import './App.css'
 const AppRoutes = () => {
   let routes = useRoutes([
     { path: '/', element: <Home /> },
-    { path: '/:cat', element: <Cat /> },
+    // { path: '/:cat', element: <Cat /> },
+    { path: '/clothes', element: <Home /> },
+    { path: '/electronics', element: <Home /> },
+    { path: '/furnitures', element: <Home /> },
+    { path: '/toys', element: <Home /> },
+    { path: '/others', element: <Home /> },
     // { path: '/all', element: <All /> },
     { path: '/my-account', element: <MyAccount /> },
     { path: '/my-order', element: <MyOrder /> },

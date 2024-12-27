@@ -8,21 +8,18 @@ function Home() {
     const context = useContext(ShoppingCartContext)
     // console.log('Context: ',context.items)
     const renderView = () => {
-        if (context.searchByTitle?.length) {
-            // console.log('context search',context.searchByTitle)
-            if (context.filteredItems?.length > 0) {
-                return (
-                    context.filteredItems?.map(item => (<Card key={item.id} data={item} />))
-                )
-            } else {
-                console.log(context.filteredItems)
-                return (
-                    <div>We dont have it</div>
-                )
-            }
-        } else {
+        if (context.filteredItems?.length > 0) {
             return (
-                context.items?.map(item => (<Card key={item.id} data={item} />))
+                context.filteredItems?.map(
+                    item => (
+                        <Card key={item.id} data={item} />
+                    )
+                )
+            )
+        } else {
+            // console.log(context.filteredItems)
+            return (
+                <div>We dont have it</div>
             )
         }
     }
@@ -39,7 +36,7 @@ function Home() {
                 onChange={(event) => context.setSearchByTitle(event.target.value)}>
             </input>
             <div className='grid gap-4 grid-cols-4 w-full max-w-screen-lg'>
-                {renderView() }
+                {renderView()}
             </div>
             <ProductDetail />
         </Layout>

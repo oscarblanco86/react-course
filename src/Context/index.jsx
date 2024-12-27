@@ -53,15 +53,42 @@ export const ShoppingCartProvider = ({children})=> {
         return items?.filter(item => item.category.name.toLowerCase().includes(searchByCat.toLowerCase()))
     }
 
-    useEffect(() => {
-        if (searchByTitle) 
-            setFilteredItems(filteredItemsByTitle(items,searchByTitle))
-    }, [items, searchByTitle])
+    const filterBy = (searchType, items, searchByTitle, searchByCat) => {
+        if (searchType  === 'BY_TITLE') {
+            return filteredItemsByTitle(items, searchByTitle)
+        }
+        if (searchType  === 'BY_CATEGORY') {
+            return filteredItemsByCat(items, searchByCat)
+        }
+        if (searchType  === 'BY_TITLE_AND_BY_CATEGORY') {
+            return filteredItemsByCat(items, searchByCat).filter(item =>  item.title.toLowerCase().includes(searchByTitle.toLowerCase()))
+        }
+        if (!searchType) {
+            return items
+        }
+
+    }
 
     useEffect(() => {
-        if (searchByCat) 
-            setFilteredItems(filteredItemsByCat(items, searchByCat))
-    }, [items, searchByCat])
+        if (searchByTitle && searchByCat) 
+            setFilteredItems(filterBy('BY_TITLE_AND_BY_CATEGORY',items, searchByTitle, searchByCat))
+        if (searchByTitle && !searchByCat) 
+            setFilteredItems(filterBy('BY_TITLE',items, searchByTitle, searchByCat))
+        if (!searchByTitle && searchByCat) 
+            setFilteredItems(filterBy('BY_CATEGORY',items, searchByTitle, searchByCat))
+        if (!searchByTitle && !searchByCat) 
+            setFilteredItems(filterBy(null,items, searchByTitle, searchByCat))
+    }, [items, searchByTitle, searchByCat])
+   
+    // useEffect(() => {
+    //     if (searchByTitle) 
+    //         setFilteredItems(filteredItemsByTitle(items,searchByTitle))
+    // }, [items, searchByTitle])
+
+    // useEffect(() => {
+    //     if (searchByCat) 
+    //         setFilteredItems(filteredItemsByCat(items, searchByCat))
+    // }, [items, searchByCat])
 
     // console.log('filtered items: ',filteredItems)
     // console.log('items: ',items)
